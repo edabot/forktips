@@ -1,26 +1,28 @@
-import React, { Component } from "react";
-import "./App.css";
-import firebase, { auth, provider } from "./firebase";
+import React, { Component } from 'react';
+import './App.css';
+import firebase, { auth, provider } from './firebase';
+import Navbar from './components/Navbar';
+import RecipeList from './components/RecipeList';
+import RecipeView from './components/RecipeView';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentItem: "",
-      username: "",
-      items: [],
-      user: null
+      user: null,
+      loggedIn: false
     };
   }
 
   componentDidMount() {
     auth.onAuthStateChanged(user => {
       if (user) {
-        this.setState({ user });
+        this.setState({ user, loggedIn: true });
       }
     });
-    const itemsRef = firebase.database().ref("items");
-    itemsRef.on("value", snapshot => {
+    const itemsRef = firebase.database().ref('items');
+    itemsRef.on('value', snapshot => {
       let items = snapshot.val();
       let newState = [];
       for (let item in items) {
@@ -40,15 +42,15 @@ class App extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const itemsRef = firebase.database().ref("items");
+    const itemsRef = firebase.database().ref('items');
     const item = {
       title: this.state.currentItem,
       user: this.state.user.displayName || this.state.user.email
     };
     itemsRef.push(item);
     this.setState({
-      currentItem: "",
-      username: ""
+      currentItem: '',
+      username: ''
     });
   };
 
@@ -57,88 +59,37 @@ class App extends Component {
     itemRef.remove();
   };
 
-  login = () => {
+  logIn = () => {
     auth.signInWithPopup(provider).then(res => {
       const user = res.user;
-      this.setState({ user });
+      this.setState({ user, loggedIn: true });
     });
   };
 
-  logout = () => {
+  logOut = () => {
     auth.signOut().then(() => {
       this.setState({
-        user: null
+        user: null,
+        loggedIn: false
       });
     });
   };
 
   render() {
     return (
-      <div className="App">
-        <header>
-          <div className="wrapper">
-            <h1>Fun Food Friends</h1>
-            {this.state.user ? (
-              <button onClick={this.logout}>Log Out</button>
-            ) : (
-              <button onClick={this.login}>Log In</button>
-            )}
-          </div>
-        </header>
-        {this.state.user ? (
-          <div className="container">
-            <div className="user-profile">
-              <img src={this.state.user.photoURL} alt="profile" />
-            </div>
-            <section className="add-item">
-              <form onSubmit={this.handleSubmit}>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="What's your name?"
-                  value={this.state.user.displayName || this.state.user.email}
-                />
-                <input
-                  type="text"
-                  name="currentItem"
-                  placeholder="What are you bringing?"
-                  onChange={this.handleChange}
-                  value={this.state.currentItem}
-                />
-                <button>Add Item</button>
-              </form>
-            </section>
-            <section className="display-item">
-              <div className="wrapper">
-                <ul>
-                  {this.state.items.map(item => {
-                    return (
-                      <li key={item.id}>
-                        <h3>{item.title}</h3>
-                        <p>
-                          brought by: {item.user}
-                          {item.user === this.state.user.displayName ||
-                          item.user === this.state.user.email ? (
-                            <button onClick={() => this.removeItem(item.id)}>
-                              Remove Item
-                            </button>
-                          ) : null}
-                        </p>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </section>
-          </div>
-        ) : (
-          <div className="wrapper">
-            <p>
-              You must be logged in to see the potluck list and submit to it.
-            </p>
-          </div>
-        )}
-      </div>
+      <Router>
+        <div>
+          <Navbar
+            loggedIn={this.state.loggedIn}
+            logIn={this.logIn}
+            logOut={this.logOut}
+          />
+          <Switch>
+            <Route exact path="/" component={RecipeList} />
+            <Route path="/:id" component={RecipeView} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
