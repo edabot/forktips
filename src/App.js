@@ -4,6 +4,7 @@ import firebase, { auth, provider } from './firebase';
 import Navbar from './components/Navbar';
 import RecipeList from './components/RecipeList';
 import RecipeView from './components/RecipeView';
+import RecipeEdit from './components/RecipeEdit';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -86,6 +87,7 @@ class App extends Component {
           />
           <Switch>
             <Route exact path="/" component={RecipeList} />
+            <Route path="/:id/edit" component={RecipeEdit} />
             <Route path="/:id" component={RecipeView} />
           </Switch>
         </div>

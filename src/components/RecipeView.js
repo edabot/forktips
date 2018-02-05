@@ -58,15 +58,18 @@ class RecipeView extends Component {
   };
 
   render() {
+    const {recipe} = this.state
     return (
       <div>
-        {this.state.recipe && (
+        {recipe && (
           <div>
-            <div>Author: {this.state.recipe.author}</div>
-            <div>Ingredients: {this.state.recipe.ingredients}</div>
-            <div>Instructions: {this.state.recipe.instructions}</div>
+            <div>Title: {recipe.title}</div>
+            <div>Author: {recipe.author}</div>
+            <div>Ingredients: {recipe.ingredients}</div>
+            <div>Instructions: {recipe.instructions}</div>
             {this.displayMods()}
             {this.displaySource()}
+            <Link to={`/${this.props.match.params.id}/edit`}>edit</Link>
           </div>
         )}
       </div>
