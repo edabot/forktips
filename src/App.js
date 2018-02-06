@@ -20,22 +20,37 @@ class App extends Component {
   componentDidMount() {
     auth.onAuthStateChanged(user => {
       if (user) {
-        return firebase.database().ref('/users/' + user.uid).once('value').then(snapshot => {
-          let userInfo = snapshot.val()
-          if (!userInfo) {
-            let newUserInfo = {
-              email: user.email,
-              displayName: user.displayName,
-              photoURL: user.photoURL
+        return firebase
+          .database()
+          .ref('/users/' + user.uid)
+          .once('value')
+          .then(snapshot => {
+            let userInfo = snapshot.val();
+            if (!userInfo) {
+              let newUserInfo = {
+                email: user.email,
+                displayName: user.displayName,
+                photoURL: user.photoURL
+              };
+              let updates = {};
+              updates[`/users/${user.uid}`] = newUserInfo;
+              this.setState({
+                userId: user.uid,
+                user: newUserInfo,
+                loggedIn: true
+              });
+              return firebase
+                .database()
+                .ref()
+                .update(updates);
+            } else {
+              this.setState({
+                userId: user.uid,
+                user: userInfo,
+                loggedIn: true
+              });
             }
-            let updates = {}
-            updates[`/users/${user.uid}`] = newUserInfo;
-            this.setState({userId: user.uid, user: newUserInfo, loggedIn: true})
-            return firebase.database().ref().update(updates);
-          } else {
-            this.setState({userId: user.uid, user: userInfo, loggedIn: true})
-          }
-        });
+          });
       }
     });
   }
@@ -68,9 +83,16 @@ class App extends Component {
           />
           <Switch>
             <Route exact path="/" component={RecipeList} />
-            <Route exact path="/new" render={() => (
-              <RecipeCreate userId={this.state.userId} user={this.state.user} />
-            )}/>
+            <Route
+              exact
+              path="/new"
+              render={() => (
+                <RecipeCreate
+                  userId={this.state.userId}
+                  user={this.state.user}
+                />
+              )}
+            />
             <Route path="/:id/edit" component={RecipeEdit} />
             <Route path="/:id" component={RecipeView} />
           </Switch>
