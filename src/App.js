@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import RecipeList from './components/RecipeList';
 import RecipeView from './components/RecipeView';
 import RecipeEdit from './components/RecipeEdit';
+import RecipeCreate from './components/RecipeCreate';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 class App extends Component {
@@ -19,51 +20,30 @@ class App extends Component {
   componentDidMount() {
     auth.onAuthStateChanged(user => {
       if (user) {
-        this.setState({ user, loggedIn: true });
-      }
-    });
-    const itemsRef = firebase.database().ref('items');
-    itemsRef.on('value', snapshot => {
-      let items = snapshot.val();
-      let newState = [];
-      for (let item in items) {
-        newState.push({
-          id: item,
-          title: items[item].title,
-          user: items[item].user
+        return firebase.database().ref('/users/' + user.uid).once('value').then(snapshot => {
+          let userInfo = snapshot.val()
+          if (!userInfo) {
+            let newUserInfo = {
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL
+            }
+            let updates = {}
+            updates[`/users/${user.uid}`] = newUserInfo;
+            this.setState({userId: user.uid, user: newUserInfo, loggedIn: true})
+            return firebase.database().ref().update(updates);
+          } else {
+            this.setState({userId: user.uid, user: userInfo, loggedIn: true})
+          }
         });
       }
-      this.setState({ items: newState });
     });
   }
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const itemsRef = firebase.database().ref('items');
-    const item = {
-      title: this.state.currentItem,
-      user: this.state.user.displayName || this.state.user.email
-    };
-    itemsRef.push(item);
-    this.setState({
-      currentItem: '',
-      username: ''
-    });
-  };
-
-  removeItem = itemId => {
-    const itemRef = firebase.database().ref(`/items/${itemId}`);
-    itemRef.remove();
-  };
-
   logIn = () => {
     auth.signInWithPopup(provider).then(res => {
-      const user = res.user;
-      this.setState({ user, loggedIn: true });
+      const userId = res.user.uid;
+      this.setState({ userId, loggedIn: true });
     });
   };
 
@@ -71,7 +51,8 @@ class App extends Component {
     auth.signOut().then(() => {
       this.setState({
         user: null,
-        loggedIn: false
+        loggedIn: false,
+        userId: null
       });
     });
   };
@@ -87,6 +68,9 @@ class App extends Component {
           />
           <Switch>
             <Route exact path="/" component={RecipeList} />
+            <Route exact path="/new" render={() => (
+              <RecipeCreate userId={this.state.userId} user={this.state.user} />
+            )}/>
             <Route path="/:id/edit" component={RecipeEdit} />
             <Route path="/:id" component={RecipeView} />
           </Switch>
