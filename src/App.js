@@ -1,13 +1,12 @@
-import React, { Component } from "react";
-import "./App.css";
-import firebase, { auth, provider } from "./firebase";
-import Navbar from "./components/Navbar";
-import RecipeList from "./components/RecipeList";
-import RecipeView from "./components/RecipeView";
-import RecipeEdit from "./components/RecipeEdit";
-import RecipeMod from "./components/RecipeMod";
-import RecipeCreate from "./components/RecipeCreate";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { Component } from 'react';
+import firebase, { auth, provider } from './firebase';
+import Navbar from './components/Navbar';
+import RecipeList from './components/RecipeList';
+import RecipeView from './components/RecipeView';
+import RecipeEdit from './components/RecipeEdit';
+import RecipeMod from './components/RecipeMod';
+import RecipeCreate from './components/RecipeCreate';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 class App extends Component {
   constructor() {
@@ -23,8 +22,8 @@ class App extends Component {
       if (user) {
         return firebase
           .database()
-          .ref("/users/" + user.uid)
-          .once("value")
+          .ref('/users/' + user.uid)
+          .once('value')
           .then(snapshot => {
             let userInfo = snapshot.val();
             if (!userInfo) {
@@ -82,35 +81,43 @@ class App extends Component {
             logIn={this.logIn}
             logOut={this.logOut}
           />
-          <Switch>
-            <Route exact path="/" component={RecipeList} />
-            <Route
-              exact
-              path="/new"
-              render={() => (
-                <RecipeCreate
-                  userId={this.state.userId}
-                  user={this.state.user}
-                />
-              )}
-            />
-            <Route
-              path="/:id/edit"
-              render={() => <RecipeEdit userId={this.state.userId} />}
-            />
-            <Route
-              path="/:id/mod"
-              render={() => (
-                <RecipeMod userId={this.state.userId} user={this.state.user} />
-              )}
-            />
-            <Route
-              path="/:id"
-              render={() => (
-                <RecipeView userId={this.state.userId} user={this.state.user} />
-              )}
-            />
-          </Switch>
+          <div className="content">
+            <Switch>
+              <Route exact path="/" component={RecipeList} />
+              <Route
+                exact
+                path="/new"
+                render={() => (
+                  <RecipeCreate
+                    userId={this.state.userId}
+                    user={this.state.user}
+                  />
+                )}
+              />
+              <Route
+                path="/:id/edit"
+                render={() => <RecipeEdit userId={this.state.userId} />}
+              />
+              <Route
+                path="/:id/mod"
+                render={() => (
+                  <RecipeMod
+                    userId={this.state.userId}
+                    user={this.state.user}
+                  />
+                )}
+              />
+              <Route
+                path="/:id"
+                render={() => (
+                  <RecipeView
+                    userId={this.state.userId}
+                    user={this.state.user}
+                  />
+                )}
+              />
+            </Switch>
+          </div>
         </div>
       </Router>
     );

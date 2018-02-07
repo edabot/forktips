@@ -3,13 +3,15 @@ import LogIn from './Login';
 import { Link } from 'react-router-dom';
 
 const Navbar = props => (
-  <div class="nav">
+  <div className="nav">
     <div className="nav_bar">
-      <div>
+      <div className="logo">
         <Link to="/">ForkTips</Link>
       </div>
       <div className="nav_right">
-        <Link to="/new">new recipe</Link>
+        <div className="nav_right_item">
+          <Link to="/new">new recipe</Link>
+        </div>
         <LogIn
           loggedIn={props.loggedIn}
           logIn={props.logIn}

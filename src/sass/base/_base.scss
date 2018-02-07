@@ -1,9 +1,19 @@
-* a {
-  text-decoration: none;
+* {
   margin: 0;
   padding: 0;
 }
 
+* a {
+  text-decoration: none;
+  color: black;
+}
+
 body {
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.content {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
