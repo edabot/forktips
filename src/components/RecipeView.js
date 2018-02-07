@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import firebase from "../firebase";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import firebase from '../firebase';
+import { Link } from 'react-router-dom';
 
 class RecipeView extends Component {
   constructor(props) {
@@ -11,10 +11,11 @@ class RecipeView extends Component {
   }
 
   componentDidMount() {
+    debugger;
     const itemsRef = firebase
       .database()
       .ref(`recipes/${this.props.match.params.id}`);
-    itemsRef.on("value", snapshot => {
+    itemsRef.on('value', snapshot => {
       let recipe = snapshot.val();
       this.setState({ recipe });
     });
@@ -24,7 +25,7 @@ class RecipeView extends Component {
     const itemsRef = firebase
       .database()
       .ref(`recipes/${nextProps.match.params.id}`);
-    itemsRef.on("value", snapshot => {
+    itemsRef.on('value', snapshot => {
       let recipe = snapshot.val();
       this.setState({ recipe });
     });
@@ -58,7 +59,7 @@ class RecipeView extends Component {
   };
 
   render() {
-    const {recipe} = this.state
+    const { recipe } = this.state;
     return (
       <div>
         {recipe && (

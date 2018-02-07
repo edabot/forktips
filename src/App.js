@@ -8,6 +8,10 @@ import RecipeEdit from './components/RecipeEdit';
 import RecipeCreate from './components/RecipeCreate';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
+const FadingRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => <Component {...props} />} />
+);
+
 class App extends Component {
   constructor() {
     super();
@@ -73,6 +77,7 @@ class App extends Component {
   };
 
   render() {
+    debugger;
     return (
       <Router>
         <div>
@@ -94,7 +99,11 @@ class App extends Component {
               )}
             />
             <Route path="/:id/edit" component={RecipeEdit} />
-            <Route path="/:id" component={RecipeView} />
+            <FadingRoute
+              path="/:id"
+              component={RecipeView}
+              userId={this.state.userId}
+            />
           </Switch>
         </div>
       </Router>
