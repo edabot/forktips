@@ -7,14 +7,13 @@ class RecipeEdit extends Component {
     super(props);
     this.state = {
       recipe: null,
-      redirect: null
+      redirect: null,
+      id: window.location.pathname.split("/")[1]
     };
   }
 
   componentDidMount() {
-    const itemsRef = firebase
-      .database()
-      .ref(`recipes/${this.props.match.params.id}`);
+    const itemsRef = firebase.database().ref(`recipes/${this.state.id}`);
     itemsRef.once("value").then(snapshot => {
       let recipe = snapshot.val();
       let { title, ingredients, instructions } = recipe;
@@ -40,7 +39,7 @@ class RecipeEdit extends Component {
     };
 
     var updates = {};
-    updates[`/recipes/${this.props.match.params.id}`] = postData;
+    updates[`/recipes/${this.state.id}`] = postData;
     return firebase
       .database()
       .ref()
@@ -59,43 +58,47 @@ class RecipeEdit extends Component {
     return (
       <div>
         {this.state.recipe && (
-          <form onSubmit={this.submitRecipe}>
-            <div>
-              Title:{" "}
-              <input
-                type="text"
-                name="title"
-                onChange={this.handleChange}
-                value={title}
-              />
-            </div>
-            <div>
-              Ingredients:{" "}
-              <input
-                type="text"
-                name="ingredients"
-                onChange={this.handleChange}
-                value={ingredients}
-              />
-            </div>
-            <div>
-              Instructions:{" "}
-              <input
-                type="text"
-                name="instructions"
-                onChange={this.handleChange}
-                value={instructions}
-              />
-            </div>
-            <button>submit</button>
-          </form>
-        )}
-        {this.state.redirect && (
-          <Redirect
-            to={{
-              pathname: `/${this.props.match.params.id}`
-            }}
-          />
+          <div>
+            <form onSubmit={this.submitRecipe}>
+              <div>
+                Title:{" "}
+                <input
+                  type="text"
+                  name="title"
+                  onChange={this.handleChange}
+                  value={title}
+                />
+              </div>
+              <div>
+                Ingredients:{" "}
+                <input
+                  type="text"
+                  name="ingredients"
+                  onChange={this.handleChange}
+                  value={ingredients}
+                />
+              </div>
+              <div>
+                Instructions:{" "}
+                <input
+                  type="text"
+                  name="instructions"
+                  onChange={this.handleChange}
+                  value={instructions}
+                />
+              </div>
+              <button>submit</button>
+            </form>
+            {this.props.userId !== undefined &&
+              (this.state.redirect ||
+                this.props.userId !== this.state.recipe.authorId) && (
+                <Redirect
+                  to={{
+                    pathname: `/${this.state.id}`
+                  }}
+                />
+              )}
+          </div>
         )}
       </div>
     );

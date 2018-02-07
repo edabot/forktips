@@ -56,7 +56,7 @@ class RecipeCreate extends Component {
       .update(updates)
       .then(err => {
         if (err) {
-          console.log("nuts");
+          console.log("did not save recipe");
         } else {
           this.setState({ redirect: recipeUrl });
         }
