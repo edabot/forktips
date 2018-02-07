@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import RecipeList from "./components/RecipeList";
 import RecipeView from "./components/RecipeView";
 import RecipeEdit from "./components/RecipeEdit";
+import RecipeMod from "./components/RecipeMod";
 import RecipeCreate from "./components/RecipeCreate";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -96,6 +97,12 @@ class App extends Component {
             <Route
               path="/:id/edit"
               render={() => <RecipeEdit userId={this.state.userId} />}
+            />
+            <Route
+              path="/:id/mod"
+              render={() => (
+                <RecipeMod userId={this.state.userId} user={this.state.user} />
+              )}
             />
             <Route
               path="/:id"

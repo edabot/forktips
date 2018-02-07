@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import firebase from "../firebase";
 import { Redirect } from "react-router-dom";
 
-class RecipeEdit extends Component {
+class RecipeMod extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,24 +28,46 @@ class RecipeEdit extends Component {
     });
   };
 
-  submitRecipe = e => {
-    e.preventDefault();
-    const { title, ingredients, instructions } = this.state;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user) {
+      this.setState({
+        author: nextProps.user.displayName,
+        authorId: nextProps.userId
+      });
+    }
+  }
 
+  saveRecipeMod = e => {
+    e.preventDefault();
+    const { authorId, author, title, ingredients, instructions } = this.state;
+    var postData = {
+      authorId,
+      author,
+      title,
+      ingredients,
+      instructions,
+      timeCreated: Date.now(),
+      sourceId: this.state.id
+    };
+
+    // Get a key for a new Post.
+    var recipeUrl = title.toLowerCase().replace(" ", "-");
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
     var updates = {};
-    updates[`/recipes/${this.state.id}/title`] = title;
-    updates[`/recipes/${this.state.id}/ingredients`] = ingredients;
-    updates[`/recipes/${this.state.id}/instructions`] = instructions;
-    updates[`/recipes/${this.state.id}/lastUpdated`] = Date.now();
+    updates[`/recipes/${recipeUrl}`] = postData;
+    updates[`/users/${authorId}/recipes/${recipeUrl}`] = true;
+    updates[`/recipes/${this.state.id}/mods/${recipeUrl}`] = true;
+
     return firebase
       .database()
       .ref()
       .update(updates)
       .then(err => {
         if (err) {
-          console.log("did not save edits");
+          console.log("did not save recipe");
         } else {
-          this.setState({ redirect: true });
+          this.setState({ redirect: recipeUrl });
         }
       });
   };
@@ -56,7 +78,7 @@ class RecipeEdit extends Component {
       <div>
         {this.state.recipe && (
           <div>
-            <form onSubmit={this.submitRecipe}>
+            <form onSubmit={this.saveRecipeMod}>
               <div>
                 Title:{" "}
                 <input
@@ -86,15 +108,13 @@ class RecipeEdit extends Component {
               </div>
               <button>submit</button>
             </form>
-            {this.props.userId !== undefined &&
-              (this.state.redirect ||
-                this.props.userId !== this.state.recipe.authorId) && (
-                <Redirect
-                  to={{
-                    pathname: `/${this.state.id}`
-                  }}
-                />
-              )}
+            {this.state.redirect && (
+              <Redirect
+                to={{
+                  pathname: `/${this.state.redirect}`
+                }}
+              />
+            )}
           </div>
         )}
       </div>
@@ -102,4 +122,4 @@ class RecipeEdit extends Component {
   }
 }
 
-export default RecipeEdit;
+export default RecipeMod;
