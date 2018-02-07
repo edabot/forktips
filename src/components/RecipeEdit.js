@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import firebase from '../firebase';
-import { Redirect } from 'react-router-dom';
+import React, { Component } from "react";
+import firebase from "../firebase";
+import { Redirect } from "react-router-dom";
 
 class RecipeEdit extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class RecipeEdit extends Component {
     const itemsRef = firebase
       .database()
       .ref(`recipes/${this.props.match.params.id}`);
-    itemsRef.on('value', snapshot => {
+    itemsRef.once("value").then(snapshot => {
       let recipe = snapshot.val();
       let { title, ingredients, instructions } = recipe;
       this.setState({ recipe, title, ingredients, instructions });
@@ -39,19 +39,17 @@ class RecipeEdit extends Component {
       lastUpdated: Date.now()
     };
 
-    // Write the new post's data simultaneously in the posts list and the user's post list.
     var updates = {};
     updates[`/recipes/${this.props.match.params.id}`] = postData;
-
     return firebase
       .database()
       .ref()
       .update(updates)
       .then(err => {
         if (err) {
-          console.log('nuts');
+          console.log("did not save edits");
         } else {
-          this.setState({ redirect: `/${this.props.match.params.id}` });
+          this.setState({ redirect: true });
         }
       });
   };
@@ -63,7 +61,7 @@ class RecipeEdit extends Component {
         {this.state.recipe && (
           <form onSubmit={this.submitRecipe}>
             <div>
-              Title:{' '}
+              Title:{" "}
               <input
                 type="text"
                 name="title"
@@ -72,7 +70,7 @@ class RecipeEdit extends Component {
               />
             </div>
             <div>
-              Ingredients:{' '}
+              Ingredients:{" "}
               <input
                 type="text"
                 name="ingredients"
@@ -81,7 +79,7 @@ class RecipeEdit extends Component {
               />
             </div>
             <div>
-              Instructions:{' '}
+              Instructions:{" "}
               <input
                 type="text"
                 name="instructions"

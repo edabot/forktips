@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import './App.css';
-import firebase, { auth, provider } from './firebase';
-import Navbar from './components/Navbar';
-import RecipeList from './components/RecipeList';
-import RecipeView from './components/RecipeView';
-import RecipeEdit from './components/RecipeEdit';
-import RecipeCreate from './components/RecipeCreate';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { Component } from "react";
+import "./App.css";
+import firebase, { auth, provider } from "./firebase";
+import Navbar from "./components/Navbar";
+import RecipeList from "./components/RecipeList";
+import RecipeView from "./components/RecipeView";
+import RecipeEdit from "./components/RecipeEdit";
+import RecipeCreate from "./components/RecipeCreate";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const FadingRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => <Component {...props} />} />
@@ -26,8 +26,8 @@ class App extends Component {
       if (user) {
         return firebase
           .database()
-          .ref('/users/' + user.uid)
-          .once('value')
+          .ref("/users/" + user.uid)
+          .once("value")
           .then(snapshot => {
             let userInfo = snapshot.val();
             if (!userInfo) {
@@ -77,7 +77,6 @@ class App extends Component {
   };
 
   render() {
-    debugger;
     return (
       <Router>
         <div>
@@ -99,10 +98,11 @@ class App extends Component {
               )}
             />
             <Route path="/:id/edit" component={RecipeEdit} />
-            <FadingRoute
+            <Route
               path="/:id"
-              component={RecipeView}
-              userId={this.state.userId}
+              render={() => (
+                <RecipeView userId={this.state.userId} user={this.state.user} />
+              )}
             />
           </Switch>
         </div>

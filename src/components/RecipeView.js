@@ -1,33 +1,22 @@
-import React, { Component } from 'react';
-import firebase from '../firebase';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import firebase from "../firebase";
+import { Link } from "react-router-dom";
 
 class RecipeView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipe: null
+      recipe: null,
+      id: null
     };
   }
 
   componentDidMount() {
-    debugger;
-    const itemsRef = firebase
-      .database()
-      .ref(`recipes/${this.props.match.params.id}`);
-    itemsRef.on('value', snapshot => {
+    let id = window.location.pathname.substring(1);
+    const itemsRef = firebase.database().ref(`recipes/${id}`);
+    itemsRef.once("value").then(snapshot => {
       let recipe = snapshot.val();
-      this.setState({ recipe });
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const itemsRef = firebase
-      .database()
-      .ref(`recipes/${nextProps.match.params.id}`);
-    itemsRef.on('value', snapshot => {
-      let recipe = snapshot.val();
-      this.setState({ recipe });
+      this.setState({ recipe, id });
     });
   }
 
@@ -70,7 +59,7 @@ class RecipeView extends Component {
             <div>Instructions: {recipe.instructions}</div>
             {this.displayMods()}
             {this.displaySource()}
-            <Link to={`/${this.props.match.params.id}/edit`}>edit</Link>
+            <Link to={`/${this.state.id}/edit`}>edit</Link>
           </div>
         )}
       </div>
