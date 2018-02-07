@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import firebase from "../firebase";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import firebase from '../firebase';
+import { Link } from 'react-router-dom';
 
 class RecipeView extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class RecipeView extends Component {
   componentDidMount() {
     let id = window.location.pathname.substring(1);
     const itemsRef = firebase.database().ref(`recipes/${id}`);
-    itemsRef.once("value").then(snapshot => {
+    itemsRef.once('value').then(snapshot => {
       let recipe = snapshot.val();
       this.setState({ recipe, id });
     });
@@ -23,15 +23,17 @@ class RecipeView extends Component {
   displayMods = () => {
     const { mods } = this.state.recipe;
     if (mods) {
-      const keys = Object.keys(mods);
-      for (let key in keys) {
-        const recipe = mods[key];
-        return (
-          <div>
-            Mods: <Link to={`/${recipe.id}`}>{recipe.title}</Link>
-          </div>
-        );
-      }
+      let ids = Object.keys(mods);
+      return (
+        <div>
+          Mods:
+          {ids.map(id => (
+            <div>
+              <Link to={`/${id}`}>{mods[id].title}</Link> by {mods[id].author}
+            </div>
+          ))}
+        </div>
+      );
     }
   };
 

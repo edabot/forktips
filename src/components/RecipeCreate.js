@@ -1,26 +1,29 @@
-import React, { Component } from "react";
-import firebase from "../firebase";
-import { Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import firebase from '../firebase';
+import { Redirect } from 'react-router-dom';
 
 class RecipeCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      authorId: "",
-      author: "",
-      title: "",
-      ingredients: "",
-      instructions: "",
+      authorId: '',
+      author: '',
+      title: '',
+      ingredients: '',
+      instructions: '',
       redirect: null
     };
   }
 
-  handleChange = e => {
-    e.preventDefault();
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
+  componentWillMount() {
+    if (this.props.userId) {
+      this.setState({
+        authorId: this.props.userId,
+        author: this.props.user.displayName
+      });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
       this.setState({
@@ -29,6 +32,13 @@ class RecipeCreate extends Component {
       });
     }
   }
+
+  handleChange = e => {
+    e.preventDefault();
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
 
   saveNewRecipe = e => {
     e.preventDefault();
@@ -43,7 +53,7 @@ class RecipeCreate extends Component {
     };
 
     // Get a key for a new Post.
-    var recipeUrl = title.toLowerCase().replace(" ", "-");
+    var recipeUrl = title.toLowerCase().replace(' ', '-');
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
     var updates = {};
@@ -56,7 +66,7 @@ class RecipeCreate extends Component {
       .update(updates)
       .then(err => {
         if (err) {
-          console.log("did not save recipe");
+          console.log('did not save recipe');
         } else {
           this.setState({ redirect: recipeUrl });
         }
@@ -69,7 +79,7 @@ class RecipeCreate extends Component {
       <div>
         <form onSubmit={this.saveNewRecipe}>
           <div>
-            Title:{" "}
+            Title:{' '}
             <input
               type="text"
               name="title"
@@ -78,7 +88,7 @@ class RecipeCreate extends Component {
             />
           </div>
           <div>
-            Ingredients:{" "}
+            Ingredients:{' '}
             <input
               type="text"
               name="ingredients"
@@ -87,7 +97,7 @@ class RecipeCreate extends Component {
             />
           </div>
           <div>
-            Instructions:{" "}
+            Instructions:{' '}
             <input
               type="text"
               name="instructions"

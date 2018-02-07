@@ -1,5 +1,17 @@
-body {
+* a {
+  text-decoration: none;
   margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
+  padding: 0; }
+
+body {
+  font-family: sans-serif; }
+
+.nav {
+  width: 100%;
+  height: 50px; }
+  .nav_bar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto; }

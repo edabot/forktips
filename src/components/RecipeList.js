@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import firebase from '../firebase';
 import { Link } from 'react-router-dom';
 
-const RecipeListItem = ({recipe}) => (
+const RecipeListItem = ({ recipe }) => (
   <div>
     <Link to={`/${recipe.id}`}>{recipe.title}</Link>
   </div>
-)
+);
 
 class RecipeList extends Component {
   constructor(props) {
@@ -17,8 +17,11 @@ class RecipeList extends Component {
   }
 
   componentDidMount() {
-    const itemsRef = firebase.database().ref('recipes').limitToLast(10);
-    itemsRef.on('value', snapshot => {
+    const itemsRef = firebase
+      .database()
+      .ref('recipes')
+      .limitToLast(10);
+    itemsRef.once('value').then(snapshot => {
       let recipes = snapshot.val();
       let newState = [];
       for (let item in recipes) {
@@ -34,9 +37,11 @@ class RecipeList extends Component {
   render() {
     return (
       <div>
-        {this.state.recipes.map(recipe => <RecipeListItem recipe={recipe} key={recipe.id}/>)}
+        {this.state.recipes.map(recipe => (
+          <RecipeListItem recipe={recipe} key={recipe.id} />
+        ))}
       </div>
-    )
+    );
   }
 }
 
