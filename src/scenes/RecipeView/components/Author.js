@@ -1,7 +1,8 @@
-import React from "react";
+import React from 'react';
+import styled from 'styled-components';
 
-const AuthorStyles = {
-  fontSize: ".8rem",
-  color: "#666"
-};
-export default ({ author }) => <div style={AuthorStyles}>{author}</div>;
+const Author = styled.div`
+  font-size: 0.8rem;
+  color: #666;
+`;
+export default ({ author }) => <Author>Author: {author}</Author>;

@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
 import { Redirect } from 'react-router-dom';
+import styled from 'styled-components';
+
+const SubmitButton = styled.button`
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid #b6300b;
+  border-radius: 5px;
+  max-width: 200px;
+  margin: 0 auto;
+`;
 
 class RecipeMod extends Component {
   constructor(props) {
-    debugger;
     super(props);
     this.state = {
       recipe: null,
@@ -60,7 +70,6 @@ class RecipeMod extends Component {
       sourceId: this.state.id
     };
 
-    debugger;
     // Get a key for a new Post.
     var recipeUrl = title.toLowerCase().replace(/\s/g, '-');
 
@@ -124,7 +133,7 @@ class RecipeMod extends Component {
                   value={instructions}
                 />
               </div>
-              <button>submit</button>
+              <SubmitButton>submit</SubmitButton>
             </form>
             {this.state.redirect && (
               <Redirect
