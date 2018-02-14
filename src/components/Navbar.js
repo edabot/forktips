@@ -1,11 +1,17 @@
-import React from 'react';
-import LogIn from './Login';
-import { Link } from 'react-router-dom';
+import React from "react";
+import LoginButton from "./LoginButton";
+import { Link } from "react-router-dom";
+
+const FlexBar = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between"
+};
 
 const Navbar = props => (
-  <div>
+  <div style={FlexBar}>
     <Link to="/">home</Link>
-    <LogIn
+    <LoginButton
       loggedIn={props.loggedIn}
       logIn={props.logIn}
       logOut={props.logOut}

@@ -3,7 +3,7 @@ import "./App.css";
 import firebase, { auth, provider } from "./firebase";
 import Navbar from "./components/Navbar";
 import RecipeList from "./components/RecipeList";
-import RecipeView from "./components/RecipeView";
+import RecipeView from "./scenes/Recipe/RecipeView";
 import RecipeEdit from "./components/RecipeEdit";
 import RecipeMod from "./components/RecipeMod";
 import RecipeCreate from "./components/RecipeCreate";

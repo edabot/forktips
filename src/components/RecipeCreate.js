@@ -43,7 +43,7 @@ class RecipeCreate extends Component {
     };
 
     // Get a key for a new Post.
-    var recipeUrl = title.toLowerCase().replace(" ", "-");
+    var recipeUrl = title.toLowerCase().replace(/\s/g, "-");
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
     var updates = {};

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import firebase from "../firebase";
+import firebase from "../../firebase";
 import { Link } from "react-router-dom";
+import Recipe from "./components/Recipe";
+import ModButton from "./components/ModButton";
+import EditButton from "./components/EditButton";
 
 class RecipeView extends Component {
   constructor(props) {
@@ -24,7 +27,7 @@ class RecipeView extends Component {
     const { mods } = this.state.recipe;
     if (mods) {
       const keys = Object.keys(mods);
-      for (let key in keys) {
+      for (let key of keys) {
         const recipe = mods[key];
         return (
           <div>
@@ -53,16 +56,13 @@ class RecipeView extends Component {
       <div>
         {recipe && (
           <div>
-            <div>Title: {recipe.title}</div>
-            <div>Author: {recipe.author}</div>
-            <div>Ingredients: {recipe.ingredients}</div>
-            <div>Instructions: {recipe.instructions}</div>
+            <Recipe recipe={recipe} />
             {this.displayMods()}
             {this.displaySource()}
             {this.props.userId === recipe.authorId && (
-              <Link to={`/${this.state.id}/edit`}>edit</Link>
+              <EditButton link={`/${this.state.id}/edit`} />
             )}
-            <Link to={`/${this.state.id}/mod`}>modify this recipe</Link>
+            <ModButton link={`/${this.state.id}/mod`} />
           </div>
         )}
       </div>

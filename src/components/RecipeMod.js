@@ -51,14 +51,20 @@ class RecipeMod extends Component {
     };
 
     // Get a key for a new Post.
-    var recipeUrl = title.toLowerCase().replace(" ", "-");
+    var recipeUrl = title.toLowerCase().replace(/\s/g, "-");
+
+    var modData = {
+      id: recipeUrl,
+      title,
+      author
+    };
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
     var updates = {};
     updates[`/recipes/${recipeUrl}`] = postData;
     updates[`/users/${authorId}/recipes/${recipeUrl}`] = true;
-    updates[`/recipes/${this.state.id}/mods/${recipeUrl}`] = true;
-
+    updates[`/recipes/${this.state.id}/mods/${recipeUrl}`] = modData;
+    debugger;
     return firebase
       .database()
       .ref()
