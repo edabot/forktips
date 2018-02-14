@@ -2,6 +2,7 @@ import React from 'react';
 import LoginButton from './LoginButton';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import NewRecipeButton from './NewRecipeButton';
 
 const Nav = styled.div`
   display: flex;
@@ -10,6 +11,10 @@ const Nav = styled.div`
   width: calc(100% - 80px);
   max-width: 1024px;
   margin: 20px auto;
+`;
+
+const FlexRow = styled.div`
+  display: flex;
 `;
 
 const Logo = styled.div`
@@ -22,12 +27,14 @@ const Navbar = props => (
     <Logo>
       <Link to="/">ForkTips</Link>
     </Logo>
-    <Link to="/new">new recipe</Link>
-    <LoginButton
-      loggedIn={props.loggedIn}
-      logIn={props.logIn}
-      logOut={props.logOut}
-    />
+    <FlexRow>
+      <NewRecipeButton />
+      <LoginButton
+        loggedIn={props.loggedIn}
+        logIn={props.logIn}
+        logOut={props.logOut}
+      />
+    </FlexRow>
   </Nav>
 );
 
