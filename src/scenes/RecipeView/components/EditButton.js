@@ -9,6 +9,13 @@ const Button = styled.button`
   font-size: 1em;
   margin-right: 1rem;
   border: 1px solid #eee;
+  transition: all 0.2s;
+  &:hover {
+    border: 1px solid #b6300b;
+    a {
+      color: #b6300b;
+    }
+  }
 `;
 
 export default ({ link }) => (

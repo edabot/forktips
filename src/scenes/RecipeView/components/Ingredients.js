@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
+import styled from 'styled-components';
 
-const IngredientsStyles = {
-  fontSize: "1rem",
-  color: "#333",
-  backgroundColor: "#f8f8f8",
-  marginBottom: "1rem"
-};
-export default ({ ingredients }) => (
-  <div style={IngredientsStyles}>{ingredients}</div>
-);
+const Ingredients = styled.div`
+  font-size: 1rem;
+  color: #333;
+  background-color: #f8f8f8;
+  margin-bottom: 1rem;
+`;
+
+export default ({ ingredients }) => <Ingredients>{ingredients}</Ingredients>;

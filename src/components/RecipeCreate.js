@@ -1,16 +1,17 @@
-import React, { Component } from "react";
-import firebase from "../firebase";
-import { Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import firebase from '../firebase';
+import { Redirect } from 'react-router-dom';
+import SubmitButton from './SubmitButton';
 
 class RecipeCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      authorId: "",
-      author: "",
-      title: "",
-      ingredients: "",
-      instructions: "",
+      authorId: '',
+      author: '',
+      title: '',
+      ingredients: '',
+      instructions: '',
       redirect: null
     };
   }
@@ -53,7 +54,7 @@ class RecipeCreate extends Component {
     };
 
     // Get a key for a new Post.
-    var recipeUrl = title.toLowerCase().replace(/\s/g, "-");
+    var recipeUrl = title.toLowerCase().replace(/\s/g, '-');
 
     // Write the new post's data simultaneously in the posts list and the user's post list.
     var updates = {};
@@ -66,7 +67,7 @@ class RecipeCreate extends Component {
       .update(updates)
       .then(err => {
         if (err) {
-          console.log("did not save recipe");
+          console.log('did not save recipe');
         } else {
           this.setState({ redirect: recipeUrl });
         }
@@ -79,7 +80,7 @@ class RecipeCreate extends Component {
       <div>
         <form onSubmit={this.saveNewRecipe}>
           <div>
-            Title:{" "}
+            Title:{' '}
             <input
               type="text"
               name="title"
@@ -88,7 +89,7 @@ class RecipeCreate extends Component {
             />
           </div>
           <div>
-            Ingredients:{" "}
+            Ingredients:{' '}
             <input
               type="text"
               name="ingredients"
@@ -97,7 +98,7 @@ class RecipeCreate extends Component {
             />
           </div>
           <div>
-            Instructions:{" "}
+            Instructions:{' '}
             <input
               type="text"
               name="instructions"
@@ -105,7 +106,7 @@ class RecipeCreate extends Component {
               value={instructions}
             />
           </div>
-          <button>submit</button>
+          <SubmitButton />
         </form>
         {this.state.redirect && (
           <Redirect

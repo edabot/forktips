@@ -22,6 +22,7 @@ const Navbar = props => (
     <Logo>
       <Link to="/">ForkTips</Link>
     </Logo>
+    <Link to="/new">new recipe</Link>
     <LoginButton
       loggedIn={props.loggedIn}
       logIn={props.logIn}

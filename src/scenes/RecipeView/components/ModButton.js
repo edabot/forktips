@@ -8,6 +8,13 @@ const Button = styled.button`
   border: 0;
   font-size: 1em;
   border: 1px solid #eee;
+  transition: all 0.2s;
+  &:hover {
+    border: 1px solid #b6300b;
+    a {
+      color: #b6300b;
+    }
+  }
 `;
 
 const ModButton = ({ link }) => (
