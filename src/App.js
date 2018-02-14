@@ -82,35 +82,43 @@ class App extends Component {
             logIn={this.logIn}
             logOut={this.logOut}
           />
-          <Switch>
-            <Route exact path="/" component={RecipeList} />
-            <Route
-              exact
-              path="/new"
-              render={() => (
-                <RecipeCreate
-                  userId={this.state.userId}
-                  user={this.state.user}
-                />
-              )}
-            />
-            <Route
-              path="/:id/edit"
-              render={() => <RecipeEdit userId={this.state.userId} />}
-            />
-            <Route
-              path="/:id/mod"
-              render={() => (
-                <RecipeMod userId={this.state.userId} user={this.state.user} />
-              )}
-            />
-            <Route
-              path="/:id"
-              render={() => (
-                <RecipeView userId={this.state.userId} user={this.state.user} />
-              )}
-            />
-          </Switch>
+          <div className="content">
+            <Switch>
+              <Route exact path="/" component={RecipeList} />
+              <Route
+                exact
+                path="/new"
+                render={() => (
+                  <RecipeCreate
+                    userId={this.state.userId}
+                    user={this.state.user}
+                  />
+                )}
+              />
+              <Route
+                path="/:id/edit"
+                render={() => <RecipeEdit userId={this.state.userId} />}
+              />
+              <Route
+                path="/:id/mod"
+                render={() => (
+                  <RecipeMod
+                    userId={this.state.userId}
+                    user={this.state.user}
+                  />
+                )}
+              />
+              <Route
+                path="/:id"
+                render={() => (
+                  <RecipeView
+                    userId={this.state.userId}
+                    user={this.state.user}
+                  />
+                )}
+              />
+            </Switch>
+          </div>
         </div>
       </Router>
     );

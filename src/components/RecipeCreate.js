@@ -15,12 +15,15 @@ class RecipeCreate extends Component {
     };
   }
 
-  handleChange = e => {
-    e.preventDefault();
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
+  componentWillMount() {
+    if (this.props.userId) {
+      this.setState({
+        authorId: this.props.userId,
+        author: this.props.user.displayName
+      });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.user) {
       this.setState({
@@ -29,6 +32,13 @@ class RecipeCreate extends Component {
       });
     }
   }
+
+  handleChange = e => {
+    e.preventDefault();
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
 
   saveNewRecipe = e => {
     e.preventDefault();

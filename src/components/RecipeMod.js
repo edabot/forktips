@@ -4,12 +4,22 @@ import { Redirect } from "react-router-dom";
 
 class RecipeMod extends Component {
   constructor(props) {
+    debugger;
     super(props);
     this.state = {
       recipe: null,
       redirect: null,
       id: window.location.pathname.split("/")[1]
     };
+  }
+
+  componentWillMount() {
+    if (this.props.userId) {
+      this.setState({
+        authorId: this.props.userId,
+        author: this.props.user.displayName
+      });
+    }
   }
 
   componentDidMount() {
@@ -37,7 +47,7 @@ class RecipeMod extends Component {
     }
   }
 
-  saveRecipeMod = e => {
+  saveRecipeMod(e) {
     e.preventDefault();
     const { authorId, author, title, ingredients, instructions } = this.state;
     var postData = {
@@ -50,6 +60,12 @@ class RecipeMod extends Component {
       sourceId: this.state.id
     };
 
+    var modData = {
+      authorId,
+      author,
+      title
+    };
+    debugger;
     // Get a key for a new Post.
     var recipeUrl = title.toLowerCase().replace(/\s/g, "-");
 
@@ -64,7 +80,7 @@ class RecipeMod extends Component {
     updates[`/recipes/${recipeUrl}`] = postData;
     updates[`/users/${authorId}/recipes/${recipeUrl}`] = true;
     updates[`/recipes/${this.state.id}/mods/${recipeUrl}`] = modData;
-    debugger;
+
     return firebase
       .database()
       .ref()
@@ -76,7 +92,7 @@ class RecipeMod extends Component {
           this.setState({ redirect: recipeUrl });
         }
       });
-  };
+  }
 
   render() {
     const { title, ingredients, instructions } = this.state;
@@ -84,7 +100,7 @@ class RecipeMod extends Component {
       <div>
         {this.state.recipe && (
           <div>
-            <form onSubmit={this.saveRecipeMod}>
+            <form onSubmit={this.saveRecipeMod.bind(this)}>
               <div>
                 Title:{" "}
                 <input

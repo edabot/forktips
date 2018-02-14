@@ -5,8 +5,10 @@
   "dependencies": {
     "@firebase/app": "^0.1.7",
     "@firebase/auth": "^0.3.2",
+    "cloudinary-react": "^1.0.6",
     "firebase-app": "^0.0.1",
     "firebase-auth": "^0.1.2",
+    "node-sass": "^4.7.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
