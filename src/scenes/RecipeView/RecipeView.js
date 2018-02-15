@@ -47,7 +47,7 @@ class RecipeView extends Component {
             {this.props.userId === recipe.authorId && (
               <EditButton link={`/${this.state.id}/edit`} />
             )}
-            <ModButton link={`/${this.state.id}/mod`} />
+            {this.props.userId && <ModButton link={`/${this.state.id}/mod`} />}
           </div>
         )}
       </div>
