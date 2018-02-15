@@ -23,6 +23,10 @@ class RecipeView extends Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    debugger;
+  }
+
   displayMods = () => {
     const { mods } = this.state.recipe;
     if (mods) {
@@ -39,12 +43,12 @@ class RecipeView extends Component {
   };
 
   displaySource = () => {
-    const { source } = this.state.recipe;
-    if (source) {
+    const { sourceId } = this.state.recipe;
+    if (sourceId) {
       return (
         <div>
           This recipe is based on:
-          <Link to={`/${source.id}`}>{source.title}</Link>
+          <Link to={`/${sourceId}`}>{sourceId}</Link>
         </div>
       );
     }

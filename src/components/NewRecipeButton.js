@@ -1,5 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const NewRecipeButton = styled.button`
   padding: 0.5rem 1rem;
@@ -7,16 +8,24 @@ const NewRecipeButton = styled.button`
   cursor: pointer;
   background-color: white;
   border: 1px solid lightgreen;
-  color: lightgreen;
   border-radius: 5px;
   max-width: 200px;
   margin: 0 auto;
   transition: all 0.2s;
   margin-right: 1rem;
   &:hover {
-    color: white;
     background-color: lightgreen;
+  }
+  a {
+    color: lightgreen;
+    &:hover {
+      color: white;
+    }
   }
 `;
 
-export default () => <NewRecipeButton>+ new recipe</NewRecipeButton>;
+export default () => (
+  <NewRecipeButton>
+    <Link to="/new">+ new recipe</Link>
+  </NewRecipeButton>
+);

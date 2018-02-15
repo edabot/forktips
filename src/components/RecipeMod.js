@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import firebase from '../firebase';
-import { Redirect } from 'react-router-dom';
-import SubmitButton from './SubmitButton';
+import React, { Component } from "react";
+import firebase from "../firebase";
+import { Redirect } from "react-router-dom";
+import SubmitButton from "./SubmitButton";
 
 class RecipeMod extends Component {
   constructor(props) {
@@ -9,7 +9,7 @@ class RecipeMod extends Component {
     this.state = {
       recipe: null,
       redirect: null,
-      id: window.location.pathname.split('/')[1]
+      id: window.location.pathname.split("/")[1]
     };
   }
 
@@ -24,7 +24,7 @@ class RecipeMod extends Component {
 
   componentDidMount() {
     const itemsRef = firebase.database().ref(`recipes/${this.state.id}`);
-    itemsRef.once('value').then(snapshot => {
+    itemsRef.once("value").then(snapshot => {
       let recipe = snapshot.val();
       let { title, ingredients, instructions } = recipe;
       this.setState({ recipe, title, ingredients, instructions });
@@ -61,7 +61,7 @@ class RecipeMod extends Component {
     };
 
     // Get a key for a new Post.
-    var recipeUrl = title.toLowerCase().replace(/\s/g, '-');
+    var recipeUrl = title.toLowerCase().replace(/\s/g, "-");
 
     var modData = {
       id: recipeUrl,
@@ -82,7 +82,7 @@ class RecipeMod extends Component {
       .update(updates)
       .then(err => {
         if (err) {
-          console.log('did not save recipe');
+          console.log("did not save recipe");
         } else {
           this.setState({ redirect: recipeUrl });
         }
@@ -97,7 +97,7 @@ class RecipeMod extends Component {
           <div>
             <form onSubmit={this.saveRecipeMod.bind(this)}>
               <div>
-                Title:{' '}
+                Title:{" "}
                 <input
                   type="text"
                   name="title"
@@ -106,7 +106,7 @@ class RecipeMod extends Component {
                 />
               </div>
               <div>
-                Ingredients:{' '}
+                Ingredients:{" "}
                 <input
                   type="text"
                   name="ingredients"
@@ -115,7 +115,7 @@ class RecipeMod extends Component {
                 />
               </div>
               <div>
-                Instructions:{' '}
+                Instructions:{" "}
                 <input
                   type="text"
                   name="instructions"
