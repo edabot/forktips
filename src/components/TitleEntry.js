@@ -1,11 +1,14 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const TitleEntry = styled.div`
   padding: 0.5rem 1rem;
   cursor: pointer;
   background-color: #fafafa;
   input {
+    border: 0;
+    padding: 0.5rem;
+    font-size: 1.2rem;
     background-color: white;
     width: calc(100% - 50px);
   }

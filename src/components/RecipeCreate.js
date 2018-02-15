@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import firebase from '../firebase';
 import { Redirect } from 'react-router-dom';
 import SubmitButton from './SubmitButton';
+import TitleEntry from './TitleEntry';
+import ContentEntry from './ContentEntry';
 
 class RecipeCreate extends Component {
   constructor(props) {
@@ -79,33 +81,19 @@ class RecipeCreate extends Component {
     return (
       <div>
         <form onSubmit={this.saveNewRecipe}>
-          <div>
-            Title:{' '}
-            <input
-              type="text"
-              name="title"
-              onChange={this.handleChange}
-              value={title}
-            />
-          </div>
-          <div>
-            Ingredients:{' '}
-            <input
-              type="text"
-              name="ingredients"
-              onChange={this.handleChange}
-              value={ingredients}
-            />
-          </div>
-          <div>
-            Instructions:{' '}
-            <input
-              type="text"
-              name="instructions"
-              onChange={this.handleChange}
-              value={instructions}
-            />
-          </div>
+          <TitleEntry handleChange={this.handleChange} value={title} />
+          <ContentEntry
+            handleChange={this.handleChange}
+            value={ingredients}
+            h2={'Ingredients'}
+            type={'ingredients'}
+          />
+          <ContentEntry
+            handleChange={this.handleChange}
+            value={instructions}
+            h2={'Instructions'}
+            type={'instructions'}
+          />
           <SubmitButton />
         </form>
         {this.state.redirect && (

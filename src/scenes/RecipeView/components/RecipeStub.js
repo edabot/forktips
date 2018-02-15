@@ -7,6 +7,7 @@ const Stub = styled.div`
   a {
     font-weight: 700;
   }
+  margin-bottom: 0.3rem;
 `;
 
 class RecipeStub extends Component {
