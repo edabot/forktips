@@ -32,7 +32,6 @@ class RecipeEdit extends Component {
   };
 
   submitRecipe = e => {
-    debugger;
     e.preventDefault();
     const { title, ingredients, instructions } = this.state;
 

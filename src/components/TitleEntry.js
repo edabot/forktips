@@ -7,6 +7,7 @@ const TitleEntry = styled.div`
   background-color: #fafafa;
   input {
     background-color: white;
+    width: calc(100% - 50px);
   }
 `;
 
