@@ -117,10 +117,11 @@ class App extends Component {
               />
               <Route
                 path="/:id"
-                render={() => (
+                render={props => (
                   <RecipeView
                     userId={this.state.userId}
                     user={this.state.user}
+                    {...props}
                   />
                 )}
               />
