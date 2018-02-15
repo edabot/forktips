@@ -5,6 +5,7 @@ import Recipe from './components/Recipe';
 import ModButton from './components/ModButton';
 import EditButton from './components/EditButton';
 import RecipeMods from './components/RecipeMods';
+import RecipeSource from './components/RecipeSource';
 
 class RecipeView extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class RecipeView extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const itemsRef = firebase.database().ref(`recipes/${this.state.id}`);
     itemsRef.once('value').then(snapshot => {
       let recipe = snapshot.val();
@@ -34,27 +35,15 @@ class RecipeView extends Component {
     }
   }
 
-  displaySource = () => {
-    const { sourceId } = this.state.recipe;
-    if (sourceId) {
-      return (
-        <div>
-          This recipe is based on:
-          <Link to={`/${sourceId}`}>{sourceId}</Link>
-        </div>
-      );
-    }
-  };
-
   render() {
     const { recipe } = this.state;
     return (
       <div>
         {recipe && (
           <div>
+            {recipe.sourceId && <RecipeSource id={recipe.sourceId} />}
             <Recipe recipe={recipe} />
             {recipe.mods && <RecipeMods mods={recipe.mods} />}
-            {this.displaySource()}
             {this.props.userId === recipe.authorId && (
               <EditButton link={`/${this.state.id}/edit`} />
             )}
